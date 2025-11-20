@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Constructor de Encabezado IPv4</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- PORTADA -->
+    <div class="portada">
+        <div class="institucion" style="text-align: center;">
+            <h1>Universidad Autónoma del Estado de México</h1>
+            <h2>Centro Universitario UAEM Zumpango</h2>
+        </div>
+        
+        <div class="carrera" style="text-align: center;">Ingeniería en Computación</div>
+        <div class="materia" style="text-align: center;">Arquitectura de Redes</div>
+        <div class="proyecto" style="text-align: center;">Proyecto: Encabezado del datagrama IPv4</div>
+        
+        <div class="presenta" style="text-align: center;">Presenta:</div>
+        <div class="nombres" style="text-align: center;">Alonso Ismael Urrieta Rangel</div>
+        
+        <div class="docente" style="text-align: center;">Docente:</div>
+        <div class="nombres" style="text-align: center;">Carlos Alberto Rojas Hernández</div>
+        
+        <div class="fecha" style="text-align: center;">Zumpango, Estado de México a 15 de Noviembre del 2025</div>
+    </div>
+
+    <h1>Generador de Encabezado IPv4</h1>
+
+    <form id="ipv4Form">
+        <div class="field">
+            <label>Versión</label>
+            <input type="number" name="version" value="4" readonly>
+        </div>
+
+        <div class="field">
+            <label>Longitud del encabezado (IHL)</label>
+            <select name="ihl" id="ihl">
+                <option value="5" selected>5 (20 bytes)</option>
+                <option value="6">6 (24 bytes)</option>
+                <option value="7">7 (28 bytes)</option>
+                <option value="8">8 (32 bytes)</option>
+                <option value="9">9 (36 bytes)</option>
+                <option value="10">10 (40 bytes)</option>
+                <option value="11">11 (44 bytes)</option>
+                <option value="12">12 (48 bytes)</option>
+                <option value="13">13 (52 bytes)</option>
+                <option value="14">14 (56 bytes)</option>
+                <option value="15">15 (60 bytes)</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Tipo de servicio (TOS)</label>
+            <select name="tos_preset" id="tos_preset" class="tos-preset">
+                <option value="custom">Personalizado</option>
+                <option value="00000000">Normal (0x00)</option>
+                <option value="00000001">Minimize Cost (0x01)</option>
+                <option value="00000010">Maximize Reliability (0x02)</option>
+                <option value="00000100">Maximize Throughput (0x04)</option>
+                <option value="00001000">Minimize Delay (0x08)</option>
+                <option value="00001111">Maximize Security (0x0F)</option>
+            </select>
+            
+            <div id="tos_custom" style="display:none; margin-top:8px;">
+                <input type="text" id="tos" name="tos" placeholder="Valor personalizado" maxlength="2">
+                <select id="tos_base" name="tos_base">
+                    <option value="hex">Hex</option>
+                    <option value="dec">Dec</option>
+                    <option value="bin">Bin</option>
+                </select>
+                <button type="button" class="rand" onclick="genRandomValue('tos',8,'tos_base')">Aleatorio</button>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Longitud total del datagrama</label>
+            <div class="info" id="total_length_info">Calculado automáticamente</div>
+            <input type="hidden" name="total_length" value="0">
+        </div>
+
+        <div class="field">
+            <label>Identificación (16 bits)</label>
+            <input type="text" id="ident" name="ident" placeholder="" maxlength="4">
+            <select id="ident_base" name="ident_base">
+                <option value="hex">Hex</option>
+                <option value="dec">Dec</option>
+                <option value="bin">Bin</option>
+            </select>
+            <button type="button" class="rand" onclick="genRandomValue('ident',16,'ident_base')">Aleatorio</button>
+        </div>
+
+        <div class="field">
+            <label>Flags (3 bits)</label>
+            <input type="text" id="flags" name="flags" value="" placeholder="" maxlength="3">
+            <select id="flags_base" name="flags_base">
+                <option value="bin">Bin</option>
+                <option value="dec">Dec</option>
+                <option value="hex">Hex</option>
+            </select>
+            <button type="button" class="rand" onclick="genRandomValue('flags',3,'flags_base')">Aleatorio</button>
+        </div>
+
+        <div class="field">
+            <label>Desplazamiento del fragmento (13 bits)</label>
+            <input type="text" id="frag_offset" name="frag_offset" value="" placeholder="" maxlength="13">
+            <select id="frag_offset_base" name="frag_offset_base">
+                <option value="bin">Bin</option>
+                <option value="dec">Dec</option>
+                <option value="hex">Hex</option>
+            </select>
+            <button type="button" class="rand" onclick="genRandomValue('frag_offset',13,'frag_offset_base')">Aleatorio</button>
+        </div>
+
+        <div class="field">
+            <label>Tiempo de vida (TTL, 8 bits)</label>
+            <input type="text" id="ttl" name="ttl" value="" placeholder="" maxlength="3">
+            <select id="ttl_base" name="ttl_base">
+                <option value="dec">Dec</option>
+                <option value="hex">Hex</option>
+                <option value="bin">Bin</option>
+            </select>
+            <button type="button" class="rand" onclick="genRandomValue('ttl',8,'ttl_base')">Aleatorio</button>
+        </div>
+
+        <div class="field">
+            <label>Protocolo</label>
+            <select name="protocol" id="protocol">
+                <option value="1">ICMP (1)</option>
+                <option value="2">IGMP (2)</option>
+                <option value="6" selected>TCP (6)</option>
+                <option value="17">UDP (17)</option>
+                <option value="41">IPv6 (41)</option>
+                <option value="89">OSPF (89)</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Checksum (16 bits)</label>
+            <input type="text" id="checksum" name="checksum" value="" placeholder="" maxlength="4">
+            <select id="checksum_base" name="checksum_base">
+                <option value="hex">Hex</option>
+                <option value="dec">Dec</option>
+                <option value="bin">Bin</option>
+            </select>
+            <button type="button" class="rand" onclick="genRandomValue('checksum',16,'checksum_base')">Aleatorio</button>
+        </div>
+
+        <div class="field">
+            <label>Dirección IP origen</label>
+            <input type="text" id="src_ip" name="src_ip" placeholder="" required>
+        </div>
+
+        <div class="field">
+            <label>Dirección IP destino</label>
+            <input type="text" id="dst_ip" name="dst_ip" placeholder="" required>
+        </div>
+
+        <div class="field">
+            <label>Opciones (solo hexadecimal)</label>
+            <input type="text" id="options" name="options" placeholder="">
+            <div class="info" id="options_limit"></div>
+        </div>
+
+        <div class="field">
+            <label>Datos (mensaje)</label>
+            <textarea name="data" id="data" rows="4" cols="50" placeholder=""></textarea>
+            <div class="info">Longitud actual: <span id="data_length">0</span> bytes</div>
+        </div>
+
+        <button type="submit" style="padding:10px 20px; font-size:16px;">Generar datagrama IPv4</button>
+    </form>
+
+    <hr>
+
+    <div class="resultado-box" id="resultado">
+        <!-- Los resultados se mostrarán aquí después del procesamiento -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
