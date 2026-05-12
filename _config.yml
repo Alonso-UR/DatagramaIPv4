@@ -1,7 +1,0 @@
-title: "Constructor de Encabezado IPv4"
-theme: jekyll-theme-cayman
-include:
-  - "*.html"
-  - "*.php"
-  - "*.css"
-  - "*.js"
